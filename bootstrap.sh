@@ -1,20 +1,30 @@
 #!/bin/bash
-kubectl apply -f .infrastructure/mysql/ns.yml
-kubectl apply -f .infrastructure/mysql/configMap.yml
-kubectl apply -f .infrastructure/mysql/secret.yml
-kubectl apply -f .infrastructure/mysql/service.yml
-kubectl apply -f .infrastructure/mysql/statefulSet.yml
+set -e
 
-kubectl apply -f .infrastructure/app/ns.yml
-kubectl apply -f .infrastructure/app/pv.yml
-kubectl apply -f .infrastructure/app/pvc.yml
-kubectl apply -f .infrastructure/app/secret.yml
-kubectl apply -f .infrastructure/app/configMap.yml
-kubectl apply -f .infrastructure/app/clusterIp.yml
-kubectl apply -f .infrastructure/app/nodeport.yml
-kubectl apply -f .infrastructure/app/hpa.yml
-kubectl apply -f .infrastructure/app/deployment.yml
+NAMESPACE="${NAMESPACE:-todoapp}"
 
-# Install Ingress Controller
+echo "1. Створення kind-кластера..."
+kind create cluster --config cluster.yml
+
+echo "2. Встановлення ingress-nginx..."
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-# kubectl apply -f .infrastructure/ingress/ingress.yml
+
+echo "3. Встановлення metrics-server..."
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+# Виправлення для локального середовища kind (ігнорування сертифікатів)
+kubectl patch deployment metrics-server -n kube-system --type='json' \
+  -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]'
+
+echo "4. Перевірка helm lint..."
+helm lint ./.infrastructure/helm-chart/todoapp
+
+echo "5. Розгортання todoapp через Helm..."
+helm upgrade --install todoapp ./.infrastructure/helm-chart/todoapp --namespace "$NAMESPACE" --create-namespace
+
+echo "6. Очікування запуску подів..."
+kubectl wait --for=condition=ready pod --all --namespace "$NAMESPACE" --timeout=120s || true
+
+echo "7. Генерація output.log..."
+kubectl get all,cm,secret,ing -A > output.log
+
+echo "Готово! Розгортання завершено успішно."

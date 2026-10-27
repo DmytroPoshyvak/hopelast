@@ -1,0 +1,56 @@
+NAMESPACE            NAME                                             READY   STATUS    RESTARTS   AGE
+kube-system          pod/coredns-559f6c778d-5qt5m                     1/1     Running   0          7h23m
+kube-system          pod/coredns-559f6c778d-n4bjl                     1/1     Running   0          7h23m
+kube-system          pod/etcd-kind-control-plane                      1/1     Running   0          7h23m
+kube-system          pod/kindnet-76b9t                                1/1     Running   0          7h23m
+kube-system          pod/kindnet-9m7fd                                1/1     Running   0          7h23m
+kube-system          pod/kindnet-dpwgx                                1/1     Running   0          7h23m
+kube-system          pod/kindnet-g67tv                                1/1     Running   0          7h23m
+kube-system          pod/kindnet-nsmgv                                1/1     Running   0          7h23m
+kube-system          pod/kindnet-q7x7c                                1/1     Running   0          7h23m
+kube-system          pod/kindnet-sdjtq                                1/1     Running   0          7h23m
+kube-system          pod/kube-apiserver-kind-control-plane            1/1     Running   0          7h23m
+kube-system          pod/kube-controller-manager-kind-control-plane   1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-66dvv                             1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-855kz                             1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-f5zdh                             1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-fcjs6                             1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-hg5s8                             1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-kkpq7                             1/1     Running   0          7h23m
+kube-system          pod/kube-proxy-phjvd                             1/1     Running   0          7h23m
+kube-system          pod/kube-scheduler-kind-control-plane            1/1     Running   0          7h23m
+local-path-storage   pod/local-path-provisioner-75f7fc7dc5-g999j      1/1     Running   0          7h23m
+
+NAMESPACE     NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE
+default       service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP                  7h23m
+kube-system   service/kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   7h23m
+
+NAMESPACE     NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+kube-system   daemonset.apps/kindnet      7         7         7       7            7           kubernetes.io/os=linux   7h23m
+kube-system   daemonset.apps/kube-proxy   7         7         7       7            7           kubernetes.io/os=linux   7h23m
+
+NAMESPACE            NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system          deployment.apps/coredns                  2/2     2            2           7h23m
+local-path-storage   deployment.apps/local-path-provisioner   1/1     1            1           7h23m
+
+NAMESPACE            NAME                                                DESIRED   CURRENT   READY   AGE
+kube-system          replicaset.apps/coredns-559f6c778d                  2         2         2       7h23m
+local-path-storage   replicaset.apps/local-path-provisioner-75f7fc7dc5   1         1         1       7h23m
+
+NAMESPACE            NAME                                                             DATA   AGE
+default              configmap/kube-root-ca.crt                                       1      7h23m
+kube-node-lease      configmap/kube-root-ca.crt                                       1      7h23m
+kube-public          configmap/cluster-info                                           2      7h23m
+kube-public          configmap/kube-root-ca.crt                                       1      7h23m
+kube-system          configmap/coredns                                                1      7h23m
+kube-system          configmap/extension-apiserver-authentication                     6      7h23m
+kube-system          configmap/kube-apiserver-legacy-service-account-token-tracking   1      7h23m
+kube-system          configmap/kube-proxy                                             2      7h23m
+kube-system          configmap/kube-root-ca.crt                                       1      7h23m
+kube-system          configmap/kubeadm-config                                         1      7h23m
+kube-system          configmap/kubelet-config                                         1      7h23m
+local-path-storage   configmap/kube-root-ca.crt                                       1      7h23m
+local-path-storage   configmap/local-path-config                                      4      7h23m
+
+NAMESPACE     NAME                            TYPE                            DATA   AGE
+kube-system   secret/bootstrap-token-abcdef   bootstrap.kubernetes.io/token   6      7h23m
